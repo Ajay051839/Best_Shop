@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace BestShop.Pages
@@ -41,11 +42,20 @@ namespace BestShop.Pages
 		[Display(Name = "Message*")]
 		public string Message { get; set; } = string.Empty;
 
+        public List<SelectListItem> SubjectList { get; } = new List<SelectListItem>
+        {
+            new SelectListItem{Value="Order Status", Text="Order Status"},
+            new SelectListItem{Value="Refund Request", Text="Refund Request"},
+            new SelectListItem{Value="Job Application", Text="Job Application"},
+            new SelectListItem{Value="Other",Text="Other"},
+        };
+
         public string SuccessMessage { get; set; } = string.Empty;
         public string ErrorMessage { get; set; } = string.Empty;
 
         public void OnPost()
         {
+			/* 
             //Read and validate the form data using traditional method
             FirstName = Request.Form["firstname"];
             LastName = Request.Form["lastname"];
@@ -53,25 +63,39 @@ namespace BestShop.Pages
             Phone = Request.Form["phone"];
             Subject = Request.Form["subject"];
             Message = Request.Form["message"];
+            */
 
-            if(FirstName.Length==0 || LastName.Length==0 || Email.Length==0 || Phone.Length==0 || Subject.Length==0 || Message.Length == 0)
-            {
-                //Error
-                ErrorMessage = "Please fill all required fields";
-                return;
-            }
+/* if(FirstName.Length==0 || LastName.Length==0 || Email.Length==0 || Phone.Length==0 || Subject.Length==0 || Message.Length == 0)
+{
+	//Error
+	ErrorMessage = "Please fill all required fields";
+	return;
+} */
 
-            //Add this message to the database
-            //Send Confirmation Email to the client
-            SuccessMessage = "Your message has been received correctly";
-            FirstName=string.Empty;
-            LastName=string.Empty;
-            Email=string.Empty;
-            Phone=string.Empty;
-            Subject=string.Empty;
-            Message=string.Empty;
+if(!ModelState.IsValid)
+{
+	//Error
+	ErrorMessage = "Please fill all required fields";
+	return;
+}
 
+ //Since Phone number is optional need to check for Database update
+ if (Phone == string.Empty) Phone = "";
 
-        }
-    }
+//Add this message to the database
+
+//Send Confirmation Email to the client
+
+SuccessMessage = "Your message has been received correctly";
+FirstName=string.Empty;
+LastName=string.Empty;
+Email=string.Empty;
+Phone=string.Empty;
+Subject=string.Empty;
+Message=string.Empty;
+
+ModelState.Clear(); //If this is not given then these variable displays the old values
+
+}
+}
 }
