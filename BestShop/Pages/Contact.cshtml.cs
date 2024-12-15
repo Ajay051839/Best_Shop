@@ -87,8 +87,10 @@ if(!ModelState.IsValid)
             //Add this message to the database
             try
             {
-                string connectionString = "Data Source=.\\SQLEXPRESS01;Initial Catalog=bestshop;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
-                using (SqlConnection connection = new SqlConnection(connectionString))
+				//string connectionString = "Data Source=.\\SQLEXPRESS01;Initial Catalog=bestshop;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+				string connectionString = "Data Source=.\\SQLEXPRESS01;Initial Catalog=bestshop;Integrated Security=True;Encrypt=True;TrustServerCertificate=True";
+
+				using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     string sql = "INSERT INTO messages " +
